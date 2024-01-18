@@ -107,9 +107,13 @@ public class GameOfLife {
         int cols = board[0].length;
 		int [][] newBoard = new int[rows][cols];
 
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < cols; j++) {
-				newBoard[i][j] = cellValue(board, i, j);
+		for (int i = 1; i < rows - 1; i++) {
+			for (int j = 1; j < cols - 1; j++) {
+				if (cellValue(board, i, j) == 1) {
+					newBoard[i][j] = 1;
+				} else {
+					newBoard[i][j] = 0;
+				}
 			}
 		}
 		return newBoard;
@@ -130,15 +134,15 @@ public class GameOfLife {
 
 		if (currentValue == 1) {
 			if (livingNeighbors < 2) {
-				return 0;
+				currentValue = 0;
 			} else if (livingNeighbors == 2 || livingNeighbors == 3) {
-				return 1;
+				currentValue = 1;
 			} else if (livingNeighbors > 3) {
-				return 0;
+				currentValue = 0;
 			}
 		} else { 
 			if (livingNeighbors == 3) {
-				return 1;
+				currentValue = 1;
 			}
 		}
 		return currentValue;
@@ -149,19 +153,15 @@ public class GameOfLife {
 	// Assumes that i is at least 1 and at most the number of rows in the board - 1. 
 	// Assumes that j is at least 1 and at most the number of columns in the board - 1. 
 	public static int count(int[][] board, int i, int j) {
-		int livingNeighbors = 0;
-		for (int row = i - 1; row <= i + 1; row++) {
-			for (int col = j - 1; col <= j + 1; col++) {
-				if (row >= 1 && row < board.length && col >= 1 && col < board[0].length) {
-					if ((row != i) && (col != j)) {
-					if (board[row][col] == 1) {
-						livingNeighbors++;
-					}
-				}
+		int numOfLivingNeighbors = 0;
+		for (int y = -1 ; y <= 1 ; y++) {
+			for (int x = -1 ; x <= 1 ; x++) {
+			    if (!(x == 0 && y == 0) && (board[i+y][j+x] == 1)) {
+					numOfLivingNeighbors++;
+			    }
 			}
 		}
-		}	
-		return livingNeighbors;
+		return numOfLivingNeighbors;	
 	}
 	
 	// Prints the board. Alive and dead cells are printed as 1 and 0, respectively.
