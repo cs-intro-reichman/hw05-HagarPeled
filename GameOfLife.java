@@ -11,34 +11,39 @@ public class GameOfLife {
 		String fileName = args[0];
 		//// Uncomment the test that you want to execute, and re-compile.
 		//// (Run one test at a time).
-		test1(fileName);
-		///test2(fileName);
+		///test1(fileName);
+		test2(fileName);
 		///test3(fileName, 3);
 		//// play(fileName);
 	}
 	
 	// Reads the data file and prints the initial board.
-	public static void test1(String fileName) {
+	private static void test1(String fileName) {
 		int[][] board = read(fileName);
-		print(board);
+		//print(board);
 	}
 		
 	// Reads the data file, and runs a test that checks 
 	// the count and cellValue functions.
-	public static void test2(String fileName) {
+	private static void test2(String fileName) {
 		int[][] board = read(fileName);
-		for (int i = 1; i < board.length - 1; i++) {
-			for (int j = 1; j < board[i].length - 1; j++) {
-				int countResult = count(board, i, j);
-				///System.out.println("Count for cell (" + i + ", " + j + "): " + countResult);
+		print(board);
+		int rows = board.length;
+		int columns = board[0].length;
+		
+		for (int i = 1; i < rows - 1; i++) {
+			for (int j = 1; j < columns - 1; j++) {
+				if (cellValue(board, i, j) == 1) {
+					board[i][j] = 1;
+				} else {
+					board[i][j] = 0;
+				}
+				
+
 			}
-		}
-		for (int i = 1; i < board.length - 1; i++) {
-			for (int j = 1; j < board[i].length - 1; j++) {
-				int cellValueResult = cellValue(board, i, j);
-				///System.out.println("CellValue for cell (" + i + ", " + j + "): " + cellValueResult);
-			}
-		}
+		} 
+		System.out.println();
+		print(board);
 	
 	}
 	
@@ -46,7 +51,7 @@ public class GameOfLife {
 		
 	// Reads the data file, plays the game for Ngen generations, 
 	// and prints the board at the beginning of each generation.
-	public static void test3(String fileName, int Ngen) {
+	private static void test3(String fileName, int Ngen) {
 		int[][] board = read(fileName);
 		for (int gen = 0; gen < Ngen; gen++) {
 			System.out.println("Generation " + gen + ":");
@@ -123,14 +128,14 @@ public class GameOfLife {
 		int livingNeighbors = count(board, i, j);
 		int currentValue = board [i][j];
 
-		if  (currentValue == 1 ) {
+		if (currentValue == 1) {
 			if (livingNeighbors < 2) {
 				return 0;
-		} else if (livingNeighbors == 2 || livingNeighbors == 3) {
-			return 1;
-		} else if (livingNeighbors > 3) {
-			return 0;
-		}
+			} else if (livingNeighbors == 2 || livingNeighbors == 3) {
+				return 1;
+			} else if (livingNeighbors > 3) {
+				return 0;
+			}
 		} else { 
 			if (livingNeighbors == 3) {
 				return 1;
@@ -147,13 +152,15 @@ public class GameOfLife {
 		int livingNeighbors = 0;
 		for (int row = i - 1; row <= i + 1; row++) {
 			for (int col = j - 1; col <= j + 1; col++) {
-				if (row >= 0 && row < board.length && col >= 0 && col < board[0].length) {
+				if (row >= 1 && row < board.length && col >= 1 && col < board[0].length) {
+					if ((row != i) && (col != j)) {
 					if (board[row][col] == 1) {
 						livingNeighbors++;
 					}
 				}
 			}
 		}
+		}	
 		return livingNeighbors;
 	}
 	
