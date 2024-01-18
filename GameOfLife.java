@@ -11,8 +11,8 @@ public class GameOfLife {
 		String fileName = args[0];
 		//// Uncomment the test that you want to execute, and re-compile.
 		//// (Run one test at a time).
-		///test1(fileName);
-		test2(fileName);
+		test1(fileName);
+		///test2(fileName);
 		//// test3(fileName, 3);
 		//// play(fileName);
 	}
@@ -30,13 +30,13 @@ public class GameOfLife {
 		for (int i = 1; i < board.length - 1; i++) {
 			for (int j = 1; j < board[i].length - 1; j++) {
 				int countResult = count(board, i, j);
-				System.out.println("Count for cell (" + i + ", " + j + "): " + countResult);
+				///System.out.println("Count for cell (" + i + ", " + j + "): " + countResult);
 			}
 		}
 		for (int i = 1; i < board.length - 1; i++) {
 			for (int j = 1; j < board[i].length - 1; j++) {
 				int cellValueResult = cellValue(board, i, j);
-				System.out.println("CellValue for cell (" + i + ", " + j + "): " + cellValueResult);
+				///System.out.println("CellValue for cell (" + i + ", " + j + "): " + cellValueResult);
 			}
 		}
 	
@@ -76,12 +76,17 @@ public class GameOfLife {
 		int rows = Integer.parseInt(in.readLine());
 		int cols = Integer.parseInt(in.readLine());
 		int[][] board = new int[rows + 2][cols + 2];
+		String line = "";
 		
-		for (int i = 1; i <= rows; i++) {
-			String line = in.readLine();
-			if (line != null && !line.isEmpty()) {
+		for (int i = 1; i < rows; i++) {
+			line = in.readLine();
+			if (line != "") {
 			   for (int j = 1; j <= cols; j++) {
-				   board [i][j] = Integer.parseInt(line.substring(j - 1, j));
+				   if (j - 1 < line.length()) {
+					if (line.charAt(j-1) == 'X') {
+						board[i][j] = 1;
+					}
+				 }
 
 			}
 		}
@@ -156,7 +161,7 @@ public class GameOfLife {
     public static void print(int[][] arr) {
 		for (int i = 1; i < arr.length - 1; i++) {
 			for (int j = 1; j < arr[i].length - 1; j++) {
-				System.out.printf("%3 ", arr[i][j]);
+				System.out.printf("%3s", arr[i][j]);
 			}
 			System.out.println(); // Move to the next line after printing a row
 		}
